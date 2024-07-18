@@ -8,7 +8,7 @@ from ..database import get_db
 router = APIRouter(
     prefix="/posts",  # All request start with a /post
     tags=["Posts"],  # Gropuping all the Post routes in the documentation
-)
+) 
 
 
 @router.get("/", response_model=list[schemas.PostOut])

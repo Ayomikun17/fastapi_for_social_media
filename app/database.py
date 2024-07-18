@@ -13,16 +13,16 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()  # For the models
-
+ 
 # Actually using sql alchemy
 # This is for raw sql connection
 while True:
     try:
         conn = psycopg2.connect(
-            host="localhost",
-            database="fastapi",
-            user="postgres",
-            password="qwertyuiop",
+            host=f"{settings.database_hostname}",
+            database=f"{settings.database_name}",
+            user=f"{settings.database_username}",
+            password=f"{settings.database_password}",
             cursor_factory=RealDictCursor,
         )
 

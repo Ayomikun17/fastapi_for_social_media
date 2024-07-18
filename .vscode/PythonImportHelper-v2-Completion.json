@@ -249,6 +249,14 @@
         "documentation": {}
     },
     {
+        "label": "create_engine",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
         "label": "postgresql",
         "importPath": "sqlalchemy.dialects",
         "description": "sqlalchemy.dialects",
@@ -270,6 +278,14 @@
         "description": "app.models",
         "isExtraImport": true,
         "detail": "app.models",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
         "documentation": {}
     },
     {
@@ -513,6 +529,14 @@
         "documentation": {}
     },
     {
+        "label": "sessionmaker",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
         "label": "BaseSettings",
         "importPath": "pydantic_settings",
         "description": "pydantic_settings",
@@ -682,6 +706,55 @@
         "description": "passlib.context",
         "isExtraImport": true,
         "detail": "passlib.context",
+        "documentation": {}
+    },
+    {
+        "label": "TestClient",
+        "importPath": "fastapi.testclient",
+        "description": "fastapi.testclient",
+        "isExtraImport": true,
+        "detail": "fastapi.testclient",
+        "documentation": {}
+    },
+    {
+        "label": "pytest",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pytest",
+        "description": "pytest",
+        "detail": "pytest",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "importPath": "app.main",
+        "description": "app.main",
+        "isExtraImport": true,
+        "detail": "app.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_db",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
+        "documentation": {}
+    },
+    {
+        "label": "Base",
+        "importPath": "app.database",
+        "description": "app.database",
+        "isExtraImport": true,
+        "detail": "app.database",
+        "documentation": {}
+    },
+    {
+        "label": "schemas",
+        "importPath": "app",
+        "description": "app",
+        "isExtraImport": true,
+        "detail": "app",
         "documentation": {}
     },
     {
@@ -896,7 +969,7 @@
         "kind": 5,
         "importPath": "app.routers.post",
         "description": "app.routers.post",
-        "peekOfCode": "router = APIRouter(\n    prefix=\"/posts\",  # All request start with a /post\n    tags=[\"Posts\"],  # Gropuping all the Post routes in the documentation\n)\n@router.get(\"/\", response_model=list[schemas.PostOut])\ndef get_posts(\n    db: Session = Depends(get_db),\n    current_user: int = Depends(oauth2.get_current_user),\n    limit: int = 10,\n    skip: int = 0,",
+        "peekOfCode": "router = APIRouter(\n    prefix=\"/posts\",  # All request start with a /post\n    tags=[\"Posts\"],  # Gropuping all the Post routes in the documentation\n) \n@router.get(\"/\", response_model=list[schemas.PostOut])\ndef get_posts(\n    db: Session = Depends(get_db),\n    current_user: int = Depends(oauth2.get_current_user),\n    limit: int = 10,\n    skip: int = 0,",
         "detail": "app.routers.post",
         "documentation": {}
     },
@@ -977,7 +1050,7 @@
         "kind": 5,
         "importPath": "app.database",
         "description": "app.database",
-        "peekOfCode": "SQLALCHEMY_DATABASE_URL = f\"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}\"\nengine = create_engine(SQLALCHEMY_DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()  # For the models\n# Actually using sql alchemy\n# This is for raw sql connection\nwhile True:\n    try:\n        conn = psycopg2.connect(\n            host=\"localhost\",",
+        "peekOfCode": "SQLALCHEMY_DATABASE_URL = f\"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}\"\nengine = create_engine(SQLALCHEMY_DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()  # For the models\n# Actually using sql alchemy\n# This is for raw sql connection\nwhile True:\n    try:\n        conn = psycopg2.connect(\n            host=f\"{settings.database_hostname}\",",
         "detail": "app.database",
         "documentation": {}
     },
@@ -986,7 +1059,7 @@
         "kind": 5,
         "importPath": "app.database",
         "description": "app.database",
-        "peekOfCode": "engine = create_engine(SQLALCHEMY_DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()  # For the models\n# Actually using sql alchemy\n# This is for raw sql connection\nwhile True:\n    try:\n        conn = psycopg2.connect(\n            host=\"localhost\",\n            database=\"fastapi\",",
+        "peekOfCode": "engine = create_engine(SQLALCHEMY_DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()  # For the models\n# Actually using sql alchemy\n# This is for raw sql connection\nwhile True:\n    try:\n        conn = psycopg2.connect(\n            host=f\"{settings.database_hostname}\",\n            database=f\"{settings.database_name}\",",
         "detail": "app.database",
         "documentation": {}
     },
@@ -995,7 +1068,7 @@
         "kind": 5,
         "importPath": "app.database",
         "description": "app.database",
-        "peekOfCode": "SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()  # For the models\n# Actually using sql alchemy\n# This is for raw sql connection\nwhile True:\n    try:\n        conn = psycopg2.connect(\n            host=\"localhost\",\n            database=\"fastapi\",\n            user=\"postgres\",",
+        "peekOfCode": "SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()  # For the models\n# Actually using sql alchemy\n# This is for raw sql connection\nwhile True:\n    try:\n        conn = psycopg2.connect(\n            host=f\"{settings.database_hostname}\",\n            database=f\"{settings.database_name}\",\n            user=f\"{settings.database_username}\",",
         "detail": "app.database",
         "documentation": {}
     },
@@ -1004,7 +1077,7 @@
         "kind": 5,
         "importPath": "app.database",
         "description": "app.database",
-        "peekOfCode": "Base = declarative_base()  # For the models\n# Actually using sql alchemy\n# This is for raw sql connection\nwhile True:\n    try:\n        conn = psycopg2.connect(\n            host=\"localhost\",\n            database=\"fastapi\",\n            user=\"postgres\",\n            password=\"qwertyuiop\",",
+        "peekOfCode": "Base = declarative_base()  # For the models\n# Actually using sql alchemy\n# This is for raw sql connection\nwhile True:\n    try:\n        conn = psycopg2.connect(\n            host=f\"{settings.database_hostname}\",\n            database=f\"{settings.database_name}\",\n            user=f\"{settings.database_username}\",\n            password=f\"{settings.database_password}\",",
         "detail": "app.database",
         "documentation": {}
     },
@@ -1240,6 +1313,69 @@
         "description": "app.utils",
         "peekOfCode": "pwd_context = CryptContext(schemes=[\"bcrypt\"], deprecated=\"auto\")\ndef hash(password: str):\n    return pwd_context.hash(password)\ndef verify(plain_password, hashedpassword):\n    return pwd_context.verify(plain_password, hashedpassword)",
         "detail": "app.utils",
+        "documentation": {}
+    },
+    {
+        "label": "session",
+        "kind": 2,
+        "importPath": "test.database",
+        "description": "test.database",
+        "peekOfCode": "def session():\n    # Before the test runs, drop the tables in the database\n    Base.metadata.drop_all(bind=engine)\n    # After the test runs, create the tables in the database\n    Base.metadata.create_all(bind=engine)\n    db = TestingSessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()",
+        "detail": "test.database",
+        "documentation": {}
+    },
+    {
+        "label": "client",
+        "kind": 2,
+        "importPath": "test.database",
+        "description": "test.database",
+        "peekOfCode": "def client(session):\n    def ovveride_get_db():\n        try:\n            yield session\n        finally:\n            session.close()\n    app.dependency_overrides[get_db] = ovveride_get_db\n    yield TestClient(app)",
+        "detail": "test.database",
+        "documentation": {}
+    },
+    {
+        "label": "SQLALCHEMY_DATABASE_URL",
+        "kind": 5,
+        "importPath": "test.database",
+        "description": "test.database",
+        "peekOfCode": "SQLALCHEMY_DATABASE_URL = f\"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}_test\"\nengine = create_engine(SQLALCHEMY_DATABASE_URL)\nTestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\n@pytest.fixture\ndef session():\n    # Before the test runs, drop the tables in the database\n    Base.metadata.drop_all(bind=engine)\n    # After the test runs, create the tables in the database\n    Base.metadata.create_all(bind=engine)\n    db = TestingSessionLocal()",
+        "detail": "test.database",
+        "documentation": {}
+    },
+    {
+        "label": "engine",
+        "kind": 5,
+        "importPath": "test.database",
+        "description": "test.database",
+        "peekOfCode": "engine = create_engine(SQLALCHEMY_DATABASE_URL)\nTestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\n@pytest.fixture\ndef session():\n    # Before the test runs, drop the tables in the database\n    Base.metadata.drop_all(bind=engine)\n    # After the test runs, create the tables in the database\n    Base.metadata.create_all(bind=engine)\n    db = TestingSessionLocal()\n    try:",
+        "detail": "test.database",
+        "documentation": {}
+    },
+    {
+        "label": "TestingSessionLocal",
+        "kind": 5,
+        "importPath": "test.database",
+        "description": "test.database",
+        "peekOfCode": "TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\n@pytest.fixture\ndef session():\n    # Before the test runs, drop the tables in the database\n    Base.metadata.drop_all(bind=engine)\n    # After the test runs, create the tables in the database\n    Base.metadata.create_all(bind=engine)\n    db = TestingSessionLocal()\n    try:\n        yield db",
+        "detail": "test.database",
+        "documentation": {}
+    },
+    {
+        "label": "test_root",
+        "kind": 2,
+        "importPath": "test.test_users",
+        "description": "test.test_users",
+        "peekOfCode": "def test_root(client):\n    res = client.get(\"/\")\n    print(res.json().get(\"message\"))\n    assert res.json().get(\"message\") == \"Hello World\"\n    assert res.status_code == 200\ndef test_create_user(client):\n    res = client.post(\n        \"/users/\", json={\"email\": \"markjj@gmail.com\", \"password\": \"134567890\"}\n    )\n    new_user = schemas.UserOut(**res.json())",
+        "detail": "test.test_users",
+        "documentation": {}
+    },
+    {
+        "label": "test_create_user",
+        "kind": 2,
+        "importPath": "test.test_users",
+        "description": "test.test_users",
+        "peekOfCode": "def test_create_user(client):\n    res = client.post(\n        \"/users/\", json={\"email\": \"markjj@gmail.com\", \"password\": \"134567890\"}\n    )\n    new_user = schemas.UserOut(**res.json())\n    assert new_user.email == \"markjj@gmail.com\"\n    assert res.status_code == 201",
+        "detail": "test.test_users",
         "documentation": {}
     }
 ]
