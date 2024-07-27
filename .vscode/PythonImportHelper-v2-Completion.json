@@ -846,14 +846,6 @@
         "documentation": {}
     },
     {
-        "label": "test_posts",
-        "importPath": "test.conftest",
-        "description": "test.conftest",
-        "isExtraImport": true,
-        "detail": "test.conftest",
-        "documentation": {}
-    },
-    {
         "label": "upgrade",
         "kind": 2,
         "importPath": "alembic.versions.0165f46e069b_add_last_few_columns_to_posts_table",
@@ -1542,16 +1534,106 @@
         "kind": 2,
         "importPath": "test.test_posts",
         "description": "test.test_posts",
-        "peekOfCode": "def test_get_all_posts(authorized_client, test_posts):\n    res = authorized_client.get(\"/posts/\")\n    def validate(post):\n        return schemas.PostOut(**post)\n    post_map = map(validate, res.json())\n    posts_list = list(post_map)\n    assert len(res.json()) == len(test_posts)\n    assert res.status_code == 200\ndef test_unauthorized_user_get_all_posst(client, test_posts):\n    res = client.get('/posts/')",
+        "peekOfCode": "def test_get_all_posts(authorized_client, test_posts):\n    res = authorized_client.get(\"/posts/\")\n    def validate(post):\n        return schemas.PostOut(**post)\n    post_map = map(validate, res.json())\n    posts_list = list(post_map)\n    assert len(res.json()) == len(test_posts)\n    assert res.status_code == 200\ndef test_unauthorized_user_get_all_post(client, test_posts):\n    res = client.get(\"/posts/\")",
         "detail": "test.test_posts",
         "documentation": {}
     },
     {
-        "label": "test_unauthorized_user_get_all_posst",
+        "label": "test_unauthorized_user_get_all_post",
         "kind": 2,
         "importPath": "test.test_posts",
         "description": "test.test_posts",
-        "peekOfCode": "def test_unauthorized_user_get_all_posst(client, test_posts):\n    res = client.get('/posts/')\n    assert res.status_code == 401",
+        "peekOfCode": "def test_unauthorized_user_get_all_post(client, test_posts):\n    res = client.get(\"/posts/\")\n    assert res.status_code == 401\ndef test_unauthorized_user_get_one_post(client, test_posts):\n    res = client.get(f\"/posts/{test_posts[0].id}\")\n    assert res.status_code == 401\ndef test_get_one_post_not_exist(authorized_client, test_posts):\n    res = authorized_client.get(f\"/posts/467\")\n    assert res.status_code == 404\ndef test_get_one_post(authorized_client, test_posts):",
+        "detail": "test.test_posts",
+        "documentation": {}
+    },
+    {
+        "label": "test_unauthorized_user_get_one_post",
+        "kind": 2,
+        "importPath": "test.test_posts",
+        "description": "test.test_posts",
+        "peekOfCode": "def test_unauthorized_user_get_one_post(client, test_posts):\n    res = client.get(f\"/posts/{test_posts[0].id}\")\n    assert res.status_code == 401\ndef test_get_one_post_not_exist(authorized_client, test_posts):\n    res = authorized_client.get(f\"/posts/467\")\n    assert res.status_code == 404\ndef test_get_one_post(authorized_client, test_posts):\n    res = authorized_client.get(f\"/posts/{test_posts[0].id}\")\n    post = schemas.PostOut(**res.json())\n    assert post.post.id == test_posts[0].id",
+        "detail": "test.test_posts",
+        "documentation": {}
+    },
+    {
+        "label": "test_get_one_post_not_exist",
+        "kind": 2,
+        "importPath": "test.test_posts",
+        "description": "test.test_posts",
+        "peekOfCode": "def test_get_one_post_not_exist(authorized_client, test_posts):\n    res = authorized_client.get(f\"/posts/467\")\n    assert res.status_code == 404\ndef test_get_one_post(authorized_client, test_posts):\n    res = authorized_client.get(f\"/posts/{test_posts[0].id}\")\n    post = schemas.PostOut(**res.json())\n    assert post.post.id == test_posts[0].id\n    assert post.post.content == test_posts[0].content\n    assert post.post.title == test_posts[0].title\n@pytest.mark.parametrize(",
+        "detail": "test.test_posts",
+        "documentation": {}
+    },
+    {
+        "label": "test_get_one_post",
+        "kind": 2,
+        "importPath": "test.test_posts",
+        "description": "test.test_posts",
+        "peekOfCode": "def test_get_one_post(authorized_client, test_posts):\n    res = authorized_client.get(f\"/posts/{test_posts[0].id}\")\n    post = schemas.PostOut(**res.json())\n    assert post.post.id == test_posts[0].id\n    assert post.post.content == test_posts[0].content\n    assert post.post.title == test_posts[0].title\n@pytest.mark.parametrize(\n    \"title, content, published\",\n    [\n        (\"Anime of the year\", \"announcement drops soon\", True),",
+        "detail": "test.test_posts",
+        "documentation": {}
+    },
+    {
+        "label": "test_create_post",
+        "kind": 2,
+        "importPath": "test.test_posts",
+        "description": "test.test_posts",
+        "peekOfCode": "def test_create_post(\n    authorized_client, test_create_user, test_posts, title, content, published\n):\n    res = authorized_client.post(\n        \"/posts/\", json={\"title\": title, \"content\": content, \"published\": published}\n    )\n    created_post = schemas.Post(**res.json())\n    assert res.status_code == 201\n    assert created_post.title == title\n    assert created_post.content == content",
+        "detail": "test.test_posts",
+        "documentation": {}
+    },
+    {
+        "label": "create_post_default_published_true",
+        "kind": 2,
+        "importPath": "test.test_posts",
+        "description": "test.test_posts",
+        "peekOfCode": "def create_post_default_published_true(authorized_client, test_create_user, test_posts):\n    res = authorized_client.post(\n        \"/posts/\", json={\"title\": \"ajnkjvk\", \"content\": \"bbbdvd\"}\n    )\n    created_post = schemas.Post(**res.json())\n    assert res.status_code == 201\n    assert created_post.title == \"ajnkjvk\"\n    assert created_post.content == \"bbbdvd\"\n    assert created_post.published == True\n    assert created_post.owner_id == test_create_user[\"id\"]",
+        "detail": "test.test_posts",
+        "documentation": {}
+    },
+    {
+        "label": "test_unauthorized_user_create_post",
+        "kind": 2,
+        "importPath": "test.test_posts",
+        "description": "test.test_posts",
+        "peekOfCode": "def test_unauthorized_user_create_post(client, test_create_user, test_posts):\n    res = client.post(\"/posts/\", json={\"title\": \"ajnkjvk\", \"content\": \"bbbdvd\"})\n    assert res.status_code == 401\ndef test_unauthorized_user_delete_post(client, test_create_user, test_posts):\n    res = client.delete(f\"/posts/{test_posts[0].id}\")\n    assert res.status_code == 401\ndef test_delete_post_success(authorized_client, test_create_user, test_posts):\n    res = authorized_client.delete(f\"/posts/{test_posts[0].id}\")\n    assert res.status_code == 204\ndef delete_post_not_exist(authorized_client, test_create_user):",
+        "detail": "test.test_posts",
+        "documentation": {}
+    },
+    {
+        "label": "test_unauthorized_user_delete_post",
+        "kind": 2,
+        "importPath": "test.test_posts",
+        "description": "test.test_posts",
+        "peekOfCode": "def test_unauthorized_user_delete_post(client, test_create_user, test_posts):\n    res = client.delete(f\"/posts/{test_posts[0].id}\")\n    assert res.status_code == 401\ndef test_delete_post_success(authorized_client, test_create_user, test_posts):\n    res = authorized_client.delete(f\"/posts/{test_posts[0].id}\")\n    assert res.status_code == 204\ndef delete_post_not_exist(authorized_client, test_create_user):\n    res = authorized_client.delete(f\"/posts/75777777775\")\n    assert res.status_code == 404\ndef delete_other_user_post(authorized_client, test_create_user, test_posts):",
+        "detail": "test.test_posts",
+        "documentation": {}
+    },
+    {
+        "label": "test_delete_post_success",
+        "kind": 2,
+        "importPath": "test.test_posts",
+        "description": "test.test_posts",
+        "peekOfCode": "def test_delete_post_success(authorized_client, test_create_user, test_posts):\n    res = authorized_client.delete(f\"/posts/{test_posts[0].id}\")\n    assert res.status_code == 204\ndef delete_post_not_exist(authorized_client, test_create_user):\n    res = authorized_client.delete(f\"/posts/75777777775\")\n    assert res.status_code == 404\ndef delete_other_user_post(authorized_client, test_create_user, test_posts):\n    res = authorized_client.delete(f\"/posts/{test_posts[3].id}\")\n    assert res.status_code == 403",
+        "detail": "test.test_posts",
+        "documentation": {}
+    },
+    {
+        "label": "delete_post_not_exist",
+        "kind": 2,
+        "importPath": "test.test_posts",
+        "description": "test.test_posts",
+        "peekOfCode": "def delete_post_not_exist(authorized_client, test_create_user):\n    res = authorized_client.delete(f\"/posts/75777777775\")\n    assert res.status_code == 404\ndef delete_other_user_post(authorized_client, test_create_user, test_posts):\n    res = authorized_client.delete(f\"/posts/{test_posts[3].id}\")\n    assert res.status_code == 403",
+        "detail": "test.test_posts",
+        "documentation": {}
+    },
+    {
+        "label": "delete_other_user_post",
+        "kind": 2,
+        "importPath": "test.test_posts",
+        "description": "test.test_posts",
+        "peekOfCode": "def delete_other_user_post(authorized_client, test_create_user, test_posts):\n    res = authorized_client.delete(f\"/posts/{test_posts[3].id}\")\n    assert res.status_code == 403",
         "detail": "test.test_posts",
         "documentation": {}
     },
